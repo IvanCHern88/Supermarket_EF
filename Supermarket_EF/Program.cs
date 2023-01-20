@@ -33,8 +33,24 @@ namespace Supermarket_EF
                 db.Database.EnsureCreated();
             }
             TestValuesAdd();
+            ExplicitLoading();
             Top3Category();
 
+        }
+        public static void ExplicitLoading()
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var department = db.Departments.First();
+                if (department != null)
+                {
+                    db.Employees.Where(u => u.Department_Id == department.Id).Load();
+
+                    Console.WriteLine($"Deparment: {department.Id}");
+                    foreach (var u in department.Employees)
+                        Console.WriteLine($"User: {u.Name}");
+                }
+            }
         }
 
         // захист 3 роботи
@@ -59,9 +75,9 @@ namespace Supermarket_EF
                              };
 
                 var query2 = from t in query1.ToList()
-                    group t by t.Category into result
-                    orderby result.Key descending
-                    select new { Category = result.Key, Sum = result.Sum(p => p.Quantity) };
+                             group t by t.Category into result
+                             orderby result.Key descending
+                             select new { Category = result.Key, Sum = result.Sum(p => p.Quantity) };
 
 
                 foreach (var it in query2)
