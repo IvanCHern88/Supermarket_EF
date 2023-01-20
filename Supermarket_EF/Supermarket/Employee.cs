@@ -11,7 +11,7 @@ namespace Supermarket_EF.Supermarket
         public DateTime EndDate { get; set; }
         public decimal PaymentPerHour { get; set; }
         public int Department_Id { get; set; }
-        public Department Department { get; set; }
-        public List<Ticket> Tickets = new List<Ticket>();
+        public virtual Department Department { get; set; }
+        public virtual List<Ticket> Tickets { get; set; }= new List<Ticket>();
     }
 }

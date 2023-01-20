@@ -12,7 +12,7 @@ namespace Supermarket_EF.Supermarket
         [Required]
         public int Product_Id { get; set; }
         [ForeignKey("Product_Id")]
-        public Product Product { get; set; }
+        public virtual Product Product { get; set; }
         public DateTime DateOfManufacture { get; set; }
         public int Quantity { get; set; }
     }

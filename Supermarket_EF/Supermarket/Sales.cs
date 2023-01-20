@@ -13,8 +13,8 @@ namespace Supermarket_EF.Supermarket
         public int Ticket_Id { get; set; }
         public int SpecificProduct_Id { get; set; }
         [ForeignKey("Ticket_Id")]
-        public Ticket Ticket { get; set; }
+        public virtual Ticket Ticket { get; set; }
         [ForeignKey("SpecificProduct_Id")]
-        public SpecificProduct SpecificProduct { get; set; }
+        public virtual SpecificProduct SpecificProduct { get; set; }
     }
 }

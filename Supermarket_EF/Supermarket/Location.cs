@@ -11,6 +11,6 @@ namespace Supermarket_EF.Supermarket
         public string Country { get; set; }
         public string BranchName { get; set; }
         public string Address { get; set; }
-        public Department Department { get; set; }
+        public virtual Department Department { get; set; }
     }
 }

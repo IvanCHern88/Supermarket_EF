@@ -14,7 +14,7 @@ namespace Supermarket_EF.Supermarket
         public string Brand { get; set; }
         public int Category_Id { get; set; }
         [ForeignKey("Category_Id")]
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
         public string OtherDetails { get; set; }
         public string SKU { get; set; }
     }

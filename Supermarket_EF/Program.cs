@@ -34,8 +34,18 @@ namespace Supermarket_EF
             }
             TestValuesAdd();
             ExplicitLoading();
+            LazyLoading();
             Top3Category();
 
+        }
+
+        public static void LazyLoading()
+        {
+            using(ApplicationContext db = new ApplicationContext())
+            {
+                var employees = db.Employees.ToList();
+                employees.ForEach(t => Console.WriteLine(t.Department?.Id));
+            }
         }
         public static void ExplicitLoading()
         {

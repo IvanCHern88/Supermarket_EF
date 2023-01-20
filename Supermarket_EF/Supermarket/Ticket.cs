@@ -14,10 +14,10 @@ namespace Supermarket_EF.Supermarket
         public int Location_ID { get; set; }
         public int Payment_ID { get; set; }
         [ForeignKey("Employee_ID")]
-        public Employee Employee { get; set; }
+        public virtual Employee Employee { get; set; }
         [ForeignKey("Customer_ID")]
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
         [ForeignKey("Payment_ID")]
-        public Payment Payment { get; set; }
+        public virtual Payment Payment { get; set; }
     }
 }

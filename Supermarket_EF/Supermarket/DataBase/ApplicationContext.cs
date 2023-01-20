@@ -27,7 +27,9 @@ namespace Supermarket_EF
         {
             var configuration = new ConfigurationBuilder()
                  .AddJsonFile($"appsettings.json", true, true).Build();
-            optionsBuilder.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"]);
+            optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseSqlServer(configuration["ConnectionStrings:DefaultConnection"]);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

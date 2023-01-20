@@ -11,7 +11,7 @@ namespace Supermarket_EF.Supermarket
         public string Name { get; set; }
         public int Location_Id { get; set; }
         [ForeignKey("Location_Id")]
-        public Location Location { get; set; }
-        public List<Employee> Employees = new List<Employee>();
+        public virtual Location Location { get; set; }
+        public virtual List<Employee> Employees { get; set; }= new List<Employee>();
     }
 }
