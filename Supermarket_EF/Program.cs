@@ -12,12 +12,12 @@ namespace Supermarket_EF
     {
         static int ITERATIONS = 500;
         static Location location1 = new Location
-                {
-                    City = "Kyiv",
-                    Country = "Kyiv oblast",
-                    BranchName = "AA001",
-                    Address = "Politehnic 1b"
-                };
+        {
+            City = "Kyiv",
+            Country = "Kyiv oblast",
+            BranchName = "AA001",
+            Address = "Politehnic 1b"
+        };
         static Department department = new Department { Name = "Products", Location = location1 };
         static CountdownEvent done = new CountdownEvent(ITERATIONS);
         static DateTime startTime = DateTime.Now;
@@ -33,9 +33,43 @@ namespace Supermarket_EF
                 db.Database.EnsureCreated();
             }
             TestValuesAdd();
-            await AddEmployees();
-            await LastEmployee();
+            Top3Category();
 
+        }
+
+        // захист 3 роботи
+        public static void Top3Category()
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var start = new DateTime(2022, 12, 20);
+                var end = new DateTime(2023, 1, 10);
+                var query1 = from t in db.Sales
+                             join b in db.Tickets on t.Ticket_Id equals b.Id
+                             join a in db.SpacificProducts on t.SpecificProduct_Id equals a.Id
+                             join f in db.Products on a.Product_Id equals f.Id
+                             join g in db.Categories on f.Category_Id equals g.Id
+                             where b.Date >= start
+                             where b.Date <= end
+                             select new
+                             {
+                                 Date = b.Date,
+                                 Quantity = t.Quantity,
+                                 Category = g.Id
+                             };
+
+                var query2 = from t in query1.ToList()
+                    group t by t.Category into result
+                    orderby result.Key descending
+                    select new { Category = result.Key, Sum = result.Sum(p => p.Quantity) };
+
+
+                foreach (var it in query2)
+                {
+                    Console.WriteLine(it);
+                }
+
+            }
         }
         public static void TestTask()
         {
@@ -171,7 +205,7 @@ namespace Supermarket_EF
 
         public static async Task LastEmployee()
         {
-            using(ApplicationContext db = new ApplicationContext())
+            using (ApplicationContext db = new ApplicationContext())
             {
                 var lastEmployee = db.Employees.OrderByDescending(p => p.Id).FirstOrDefaultAsync();
                 Console.WriteLine(lastEmployee.Result.Name);
