@@ -24,18 +24,7 @@ namespace Supermarket_EF
                 db.Database.EnsureDeleted();
                 db.Database.EnsureCreated();
             }
-            Console.WriteLine("\n Task Test");
-            TestTask();
-         //   TestThread();
-            Thread.Sleep(2000);
-            TimeSpan taskSumm = summ;
-
-            Console.WriteLine("\n Thread Test");
-            TestThread();
-        //    TestTask();
-            Thread.Sleep(2000);
-            Console.WriteLine($"\n Сумарний час виконання TestThread Locker: {summ}");
-            Console.WriteLine($"\n Сумарний час виконання TestTask AddValues: {taskSumm}");
+            TestValuesAdd();
         }
         public static void TestTask()
         {
@@ -326,36 +315,6 @@ namespace Supermarket_EF
                 db.SaveChanges();
             }
         }
-        // Написати товар якій продавався найкраще за кожен день
-        public static void MVPBeetwenDates(DateTime from, DateTime thru)
-        {
-            for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
-                MVPOfTheDay(day);
-        }
-        public static void MVPOfTheDay(DateTime date)
-        {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                var query = (from sp in db.SpacificProducts.Include(s => s.Product)
-                             let totalQuantity = (from s in db.Sales
-                                                  join t in db.Tickets on s.Ticket_Id equals t.Id
-                                                  where s.SpecificProduct_Id == sp.Id && t.Date == date
-                                                  select s.Quantity).Sum()
-                             where totalQuantity > 0
-                             orderby totalQuantity descending
-                             select sp);
-
-                var max = query.Max(p => p.Quantity);
-
-                var query2 = query.Where(p => p.Quantity == max);
-
-                foreach (var q in query2)
-                {
-                    Console.WriteLine($"Найбiльш продаваємим товаром {date.ToShortDateString()} є {q.Product.Name}");
-                }
-
-            }
-        }
         public static void TestMethods()
         {
             Console.WriteLine("\n\nStarting public static void TestMethods() \n");
@@ -473,15 +432,6 @@ namespace Supermarket_EF
                 
             }
 
-            //using (ApplicationContext db = new ApplicationContext())
-            //{
-            //    Microsoft.Data.SqlClient.SqlParameter param = new Microsoft.Data.SqlClient.SqlParameter("@name", "Smarphones");
-            //    var products = db.Products.FromSqlRaw("GetProductsByCategory @name", param).ToList();
-            //    foreach (var p in products)
-            //        Console.WriteLine($"{p.Name} - {p.Price}");
-            //}
-
-
             Console.WriteLine("\n\tProcedure where we get product with max price");
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -535,22 +485,6 @@ namespace Supermarket_EF
                     Console.WriteLine($"{emp.Id}. {emp.Name} {emp.Soname} (Вакцинований: {emp.IsVaccinated})");
                 }
             }
-
-            //using (ApplicationContext db = new ApplicationContext())
-            //{
-            //    Employee e = db.Employees.Find(1);
-            //    if (e != null)
-            //    {
-            //        db.Employees.Remove(e);
-            //        db.SaveChanges();
-            //    }
-            //    Console.WriteLine("\nДанi пiсля видалення:");
-            //    var employees = db.Employees.ToList();
-            //    foreach (Employee emp in employees)
-            //    {
-            //        Console.WriteLine($"{emp.Id}. {emp.Name} {emp.Soname} (Вакцинований: {emp.IsVaccinated})");
-            //    }
-            //}
             Console.Read();
         }
     }

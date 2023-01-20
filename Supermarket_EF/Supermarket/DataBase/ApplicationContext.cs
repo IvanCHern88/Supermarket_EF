@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Supermarket_EF.Supermarket;
+using Microsoft.Extensions.Configuration;
 
 namespace Supermarket_EF
 {
@@ -23,7 +24,9 @@ namespace Supermarket_EF
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-IV4H1DL;Database=Supermarketdb;Trusted_Connection=True;");
+            var configuration = new ConfigurationBuilder()
+                 .AddJsonFile($"appsettings.json", true, true).Build();
+            optionsBuilder.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"]);
         }
     }
 }

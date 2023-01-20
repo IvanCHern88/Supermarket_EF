@@ -12,7 +12,6 @@ namespace Supermarket_EF.Supermarket
         public string Name { get; set; }
         public double Price { get; set; }
         public string Brand { get; set; }
-        public string Barcode { get; set; }
         public int Category_Id { get; set; }
         [ForeignKey("Category_Id")]
         public Category Category { get; set; }
