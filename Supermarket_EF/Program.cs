@@ -11,13 +11,21 @@ namespace Supermarket_EF
     class Program
     {
         static int ITERATIONS = 500;
+        static Location location1 = new Location
+                {
+                    City = "Kyiv",
+                    Country = "Kyiv oblast",
+                    BranchName = "AA001",
+                    Address = "Politehnic 1b"
+                };
+        static Department department = new Department { Name = "Products", Location = location1 };
         static CountdownEvent done = new CountdownEvent(ITERATIONS);
         static DateTime startTime = DateTime.Now;
         static TimeSpan totalLatency = TimeSpan.FromSeconds(0);
         static int x = 0;
         static object locker = new object();
         static TimeSpan summ = TimeSpan.FromSeconds(0);
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -25,6 +33,9 @@ namespace Supermarket_EF
                 db.Database.EnsureCreated();
             }
             TestValuesAdd();
+            await AddEmployees();
+            await LastEmployee();
+
         }
         public static void TestTask()
         {
@@ -91,7 +102,8 @@ namespace Supermarket_EF
                 for (int i = 1; i < 9; i++)
                 {
                     var queueTime = DateTime.Now;
-                    ThreadPool.QueueUserWorkItem((o) => {
+                    ThreadPool.QueueUserWorkItem((o) =>
+                    {
                         OnTaskStart(i, queueTime);
                         Thread.Sleep(100);
                         OnTaskEnd(i, queueTime);
@@ -136,7 +148,33 @@ namespace Supermarket_EF
                 db.AddAsync(employee);
                 db.AddAsync(category);
 
-                db.SaveChanges();
+                db.SaveChangesAsync();
+            }
+        }
+
+        public static async Task AddEmployees()
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                for (int i = 0; i < 1000; i++)
+                {
+                    string nameEmployee = "Iмя" + i;
+                    string surname = "Прiзвище" + i;
+                    Employee employee = new Employee { Name = nameEmployee, Soname = surname, Department = department };
+
+                    await db.AddAsync(employee);
+
+                    await db.SaveChangesAsync();
+                }
+            }
+        }
+
+        public static async Task LastEmployee()
+        {
+            using(ApplicationContext db = new ApplicationContext())
+            {
+                var lastEmployee = db.Employees.OrderByDescending(p => p.Id).FirstOrDefaultAsync();
+                Console.WriteLine(lastEmployee.Result.Name);
             }
         }
         public static void TestValuesAdd()
@@ -248,7 +286,7 @@ namespace Supermarket_EF
                     OtherDetails = "SAMSUNG - the best",
                     SKU = "ABDE-1464"
                 };
-                db.Products.AddRange(product_iphone11, product_iphone11_64, product_iphone12, product_macbook_pro_13, 
+                db.Products.AddRange(product_iphone11, product_iphone11_64, product_iphone12, product_macbook_pro_13,
                     product_macbook_pro_15_6, product_samsung_a50, product_samsung_a71);
 
                 Console.WriteLine("Adding SpecificProduct specificProduct1...");
@@ -333,7 +371,7 @@ namespace Supermarket_EF
             using (ApplicationContext db = new ApplicationContext())
             {
                 var apple = db.Products.Where(p => p.Brand == "Apple");
-  
+
                 foreach (var a in apple)
                 {
                     Console.WriteLine($"{a.Brand} {a.Name} \t {a.Price}");
@@ -430,7 +468,7 @@ namespace Supermarket_EF
 
                 foreach (var p in iphones)
                     Console.WriteLine(p.Name);
-                
+
             }
 
             Console.WriteLine("\n\tProcedure where we get product with max price");
