@@ -10,5 +10,6 @@ namespace Supermarket_EF.Supermarket
         [Required]
         public string Name { get; set; }
         public string Title { get; set; }
+        public List<Product> Products = new List<Product>();
     }
 }

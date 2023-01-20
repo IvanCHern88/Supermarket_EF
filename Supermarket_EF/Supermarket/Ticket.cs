@@ -17,8 +17,6 @@ namespace Supermarket_EF.Supermarket
         public Employee Employee { get; set; }
         [ForeignKey("Customer_ID")]
         public Customer Customer { get; set; }
-        [ForeignKey("Location_ID")]
-        public Location Location { get; set; }
         [ForeignKey("Payment_ID")]
         public Payment Payment { get; set; }
     }

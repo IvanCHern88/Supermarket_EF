@@ -268,7 +268,8 @@ namespace Supermarket_EF
                 Employee employeeInokentiy = new Employee()
                 {
                     Name = "Inokentiy",
-                    Soname = "Best"
+                    Soname = "Best",
+                    Department = products_department
                 };
                 db.Employees.Add(employeeInokentiy);
 
@@ -281,7 +282,7 @@ namespace Supermarket_EF
                 db.Customers.Add(customer);
 
                 Console.WriteLine("\n\n\nAdding Ticket ticket1...");
-                Ticket ticket1 = new Ticket() { Customer = customer, Employee = employeeInokentiy, Location = location1, Payment = payment1, Date = DateTime.Parse("2021/11/23") };
+                Ticket ticket1 = new Ticket() { Customer = customer, Employee = employeeInokentiy, Payment = payment1, Date = DateTime.Parse("2021/11/23") };
                 db.Tickets.Add(ticket1);
 
                 Console.WriteLine("\nAdding Sales SpecificProduct = specifi_product_iphone11, Quantity = 10 Date 2021/11/23...");
@@ -289,7 +290,7 @@ namespace Supermarket_EF
                 db.Sales.Add(sales1);
 
                 Console.WriteLine("Adding Ticket ticket2...");
-                Ticket ticket2 = new Ticket() { Customer = customer, Employee = employeeInokentiy, Location = location1, Payment = payment1, Date = DateTime.Parse("2021/11/22") };
+                Ticket ticket2 = new Ticket() { Customer = customer, Employee = employeeInokentiy, Payment = payment1, Date = DateTime.Parse("2021/11/22") };
                 db.Tickets.Add(ticket2);
 
                 Console.WriteLine("\nAdding Sales SpecificProduct = specific_product_iphone11_64, Quantity = 20 Date 2021/11/22...");
@@ -297,7 +298,7 @@ namespace Supermarket_EF
                 db.Sales.Add(sales2);
 
                 Console.WriteLine("Adding Ticket ticket3...");
-                Ticket ticket3 = new Ticket() { Customer = customer, Employee = employeeInokentiy, Location = location1, Payment = payment1, Date = DateTime.Parse("2021/11/22") };
+                Ticket ticket3 = new Ticket() { Customer = customer, Employee = employeeInokentiy, Payment = payment1, Date = DateTime.Parse("2021/11/22") };
                 db.Tickets.Add(ticket3);
 
                 Console.WriteLine("\nAdding Sales SpecificProduct = specific_product_iphone12, Quantity = 30 Date 2021/11/22...");
@@ -305,7 +306,7 @@ namespace Supermarket_EF
                 db.Sales.Add(sales3);
 
                 Console.WriteLine("Adding Ticket ticket4...");
-                Ticket ticket4 = new Ticket() { Customer = customer, Employee = employeeInokentiy, Location = location1, Payment = payment1, Date = DateTime.Parse("2021/11/22") };
+                Ticket ticket4 = new Ticket() { Customer = customer, Employee = employeeInokentiy, Payment = payment1, Date = DateTime.Parse("2021/11/22") };
                 db.Tickets.Add(ticket4);
 
                 Console.WriteLine("\nAdding Sales SpecificProduct = specific_product_iphone11_64, Quantity = 10 Date 2021/11/22...");

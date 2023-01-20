@@ -12,5 +12,6 @@ namespace Supermarket_EF.Supermarket
         public int Location_Id { get; set; }
         [ForeignKey("Location_Id")]
         public Location Location { get; set; }
+        public List<Employee> Employees = new List<Employee>();
     }
 }
